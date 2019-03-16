@@ -1,0 +1,12 @@
+{
+  "name": "nl.hdg.lights",
+  "version": "2.0.0",
+  "description": "Lights manager",
+  "author": {
+    "name": "Harrie de Groot"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "athom-api": "2.1.172"
+  }
+}
