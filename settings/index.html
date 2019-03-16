@@ -19,7 +19,15 @@
 </head>
 <body>
     <div id="app">
-        <p data-i18n="settings.benefit" class="benefit">Manage your lights</p>
+        <!--<p data-i18n="settings.benefit" class="benefit">Manage your lights</p>-->
+        <div class="app-header">
+            <input type="text" id="search" @keyup="filter()" data-i18n="[placeholder]tab1.search" placeholder="Search..">
+            <div id="clear-search" v-if="search" @click="clearFilter()">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+                    <g><path id="clear-search-icon" d="M500,990C229.4,990,10,770.6,10,500C10,229.4,229.4,10,500,10c270.6,0,490,219.4,490,490C990,770.6,770.6,990,500,990L500,990z M500,71.3C263.2,71.3,71.3,263.2,71.3,500c0,236.8,191.9,428.7,428.7,428.7c236.8,0,428.7-191.9,428.7-428.7C928.8,263.2,736.8,71.3,500,71.3L500,71.3z M543.5,500.2l129.8,129.8c12,12,12,31.3,0,43.3c-12,12-31.4,12-43.3,0L500.2,543.5L369.5,674.1c-12,12.1-31.6,12.1-43.6,0c-12-12-12-31.6,0-43.6l130.6-130.6L326.8,370.1c-12-12-12-31.3,0-43.3c12-12,31.3-12,43.3,0l129.8,129.7l131.6-131.6c12-12,31.6-12,43.6,0c12.1,12.1,12.1,31.6,0,43.7L543.5,500.2L543.5,500.2z" /></g>
+                </svg>
+            </div>
+        </div>
 
         <div class="rTable tabs" style="display:none">
             <div class="rTableRow">

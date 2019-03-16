@@ -55,11 +55,31 @@ function onHomeyReady(homeyReady){
     $app = new Vue({
         el: '#app',
         data: {
+            search: '',
+            allDevices: null,
             devices: null,
             zones: null,
-            zonesList: [],
+            zonesList: []
         },
         methods: {
+            hasName(entity, name) {
+                return entity && name && (entity.name || '').toLowerCase().indexOf(name) !== -1;
+            },
+            clearFilter() {
+                $('#search').val('');
+                this.search = '';
+                this.filter();
+            },
+            filter() {
+                if (this.allDevices) {
+                    this.search = ($('#search').val() || '').toLowerCase();
+                    this.devices = !this.search
+                        ? this.allDevices
+                        : this.allDevices.filter(d => this.hasName(d, this.search) || this.hasName(this.zones[d.zone], this.search));
+                    this.updateZonesList();
+                    setTimeout(() => this.updateSliders());
+                }
+            },
             getZones() {
                 return Homey.api('GET', '/zones', null, (err, result) => {
                     if (err) return Homey.alert(err);
@@ -110,9 +130,9 @@ function onHomeyReady(homeyReady){
                         devices.sort(sortByName);
                         devices.filter(d => !d.zone).forEach(d => d.zone = DEFAULT_ZONE.id);
                         
-                        if (!this.devices) {
-                            this.devices = devices;
-                            this.updateZonesList();
+                        if (!this.allDevices) {
+                            this.allDevices = devices;
+                            this.filter();
                             document.getElementById('devices-list').style.display = 'block';
                             setTimeout(() => this.updateSliders());
                         } 

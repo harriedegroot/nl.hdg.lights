@@ -714,3 +714,24 @@ a:active {
 .stretch {
     width: 100%;
 }
+
+#search, #search:focus {
+    width: 90% !important;
+    font-size: 16px;
+    border: none;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+#clear-search {
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+#clear-search-icon {
+    fill: rgba(0,0,0,.5);
+}

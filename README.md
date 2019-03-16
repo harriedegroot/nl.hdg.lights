@@ -13,6 +13,7 @@ Just adds an app settings page with all light & socket devices:
 - Search lights
 - Modify brightness for all devices in a zone
 - Reorder devices & zones
+- Show/hide devices
 
 ## Homey firmware v1.5 and v2
 
