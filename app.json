@@ -12,6 +12,8 @@
     "nl": "Beheer je lampen in een eenvoudig overzicht"
   },
   "category": [
+    "lights",
+    "appliances",
     "tools"
   ],
   "permissions": [ "homey:manager:api"],
