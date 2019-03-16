@@ -39,7 +39,55 @@
                     </svg>
                 </div>
                 <div id="devices-list" style="display: none;">
-                    <div class="rTableRow devices" v-for="device in devices">
+
+                    <div class="zone" v-for="zone in zonesList">
+                        <div class="rTableRow zone-header text-header">
+                            <span class="rTableCell">{{zone.name}}</span>
+                            <span class="rTableCell zone-slider slider stretch" v-if="true || hasBrightness(zone)">
+                                <!--<input v-bind:id="'dim_'+zone.id"
+                                       type="range"
+                                       v-bind:min="0"
+                                       v-bind:max="100"
+                                       v-bind:step="1"
+                                       v-bind:data-id="zone.id" />-->
+                            </span>
+                            <div class="rTableCell zone-switch settings-item-last">
+                                <label class="form-switch">
+                                    <input v-bind:id="'zone-switch_'+zone.id"
+                                           type="checkbox"
+                                           @click="switchZone(zone, $event.target.checked)">
+                                    <i></i>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="rTableRow devices" v-for="device in getDevicesForZone(zone.id)">
+                            <div class="rTableCell line">
+                                <div class="icon-cell" v-html="getIcon(device)"></div>
+                            </div>
+                            <div class="rTableCell line scrollable-text stretch">
+                                <b>{{device.name}}</b>
+                                <div class="slider" v-if="hasBrightness(device)">
+                                    <input v-bind:id="'dim_'+device.id"
+                                           type="range"
+                                           v-bind:min="0"
+                                           v-bind:max="100"
+                                           v-bind:step="1"
+                                           v-bind:data-id="device.id" />
+                                </div>
+                            </div>
+                            <div class="rTableCell line settings-item-last" v-bind:class="{ dim: hasBrightness(device) }">
+                                <label class="form-switch">
+                                    <input v-bind:id="'switch_'+device.id"
+                                           type="checkbox"
+                                           @click="switchLight(device, $event.target.checked)">
+                                    <i></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="rTableRow devices" v-for="device in devices">
                         <div class="rTableCell line">
                             <div class="icon-cell" v-html="getIcon(device)"></div>
                         </div>
@@ -63,7 +111,7 @@
                                 <i></i>
                             </label>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div id="tab2" class="panel" style="display: none;">

@@ -10,6 +10,11 @@ var updateValuesTimeout;
 const defaultSettings = {
 };
 
+const DEFAULT_ZONE = {
+    id: 'default',
+    name: ''
+};
+
 //////////////////////////  DEBUG  //////////////////////////////////////
 if (!window.Homey) {
     $(document).ready(function () {
@@ -19,9 +24,9 @@ if (!window.Homey) {
             api: (method, url, _, callback) => {
                 switch (url) {
                     case '/devices':
-                        return setTimeout(() => callback(null, testDevices), 1000);
+                        return setTimeout(() => callback(null, testDevices), 100);
                     case '/zones':
-                        return callback(null, { zone: { name: 'zone' } });
+                        return setTimeout(() => callback(null, testZones), 100);
                     default:
                         return callback(null, {});
                 }
@@ -34,6 +39,12 @@ if (!window.Homey) {
 }
 ////////////////////////////////////////////////////////////////
 
+function sortByName(a, b) {
+    let name1 = a.name.trim().toLowerCase();
+    let name2 = b.name.trim().toLowerCase();
+    return name1 < name2 ? -1 : name1 > name2 ? 1 : 0;
+}
+
 function onHomeyReady(homeyReady){
     Homey = homeyReady;
     
@@ -45,18 +56,33 @@ function onHomeyReady(homeyReady){
         el: '#app',
         data: {
             devices: null,
-            zones: {}
+            zones: null,
+            zonesList: [],
         },
         methods: {
             getZones() {
                 return Homey.api('GET', '/zones', null, (err, result) => {
                     if (err) return Homey.alert(err);
-                    this.zones = result;
+
+                    this.zones = result || {};
+                    this.updateZonesList();
                 });
+            },
+            updateZonesList() {
+                const zones = this.zones || {};
+                this.zonesList = Object.keys(zones)
+                    .filter(key => zones.hasOwnProperty(key))
+                    .map(key => zones[key])
+                    .filter(z => this.getDevicesForZone(z.id).length);
+                this.zonesList.sort(sortByName);
+
+                if (this.getDevicesForZone(DEFAULT_ZONE.id).length) {
+                    this.zonesList.unshift(DEFAULT_ZONE);
+                }
             },
             isLight(device) {
                 try {
-                    if (device) {
+                    if (device && device.name) {
                         if (device.class === 'light' || device.class === 'socket')
                             return true;
 
@@ -75,13 +101,18 @@ function onHomeyReady(homeyReady){
                         loading = false;
                         if (err) return Homey.alert(err);
 
-                        const devices = Object.keys(result || [])
+                        const devices = Object.keys(result || {})
                             .filter(key => result.hasOwnProperty(key))
                             .map(key => result[key])
                             .filter(d => this.isLight(d));
 
+                        //devices.sort((d1, d2) => (d1.name || '').toLowerCase() > (d2.name || '').toLowerCase());
+                        devices.sort(sortByName);
+                        devices.filter(d => !d.zone).forEach(d => d.zone = DEFAULT_ZONE.id);
+                        
                         if (!this.devices) {
                             this.devices = devices;
+                            this.updateZonesList();
                             document.getElementById('devices-list').style.display = 'block';
                             setTimeout(() => this.updateSliders());
                         } 
@@ -96,6 +127,9 @@ function onHomeyReady(homeyReady){
                 });
             },
             updateValues(devices) {
+                for (let zone of this.zonesList) {
+                    $('#zone-switch_' + zone.id).prop("checked", false);
+                }
                 for (let device of devices) {
                     try {
                         if (device.capabilitiesObj) {
@@ -103,6 +137,10 @@ function onHomeyReady(homeyReady){
                             if (device.capabilitiesObj.hasOwnProperty('onoff')) {
                                 const value = !!device.capabilitiesObj.onoff.value;
                                 $('#switch_' + device.id).prop("checked", value);
+
+                                if (value) {
+                                    $('#zone-switch_' + device.zone).prop("checked", true);
+                                }
                             }
                             if (device.capabilitiesObj.hasOwnProperty('dim')) {
                                 const value = Number(device.capabilitiesObj.dim.value) * 100;
@@ -137,6 +175,24 @@ function onHomeyReady(homeyReady){
                         return;
 
                     this.setCapabilityValue(device.id, 'onoff', checked);
+
+                } catch (e) {
+                    Homey.alert('Failed to switch the light');
+                }
+            },
+            //zoneOn(zone) {
+            //    return !this.getDevicesForZone(zone.id).some(d => !this.deviceOn(d));
+            //},
+            switchZone(zone, checked) {
+                try {
+                    if (!zone || typeof zone !== 'object' || !zone.id)
+                        return;
+
+                    const devices = this.getDevicesForZone(zone.id);
+                    devices.forEach(d => {
+                        this.setCapabilityValue(d.id, 'onoff', checked);
+                        $('#switch_' + d.id).prop("checked", checked);
+                    });
 
                 } catch (e) {
                     Homey.alert('Failed to switch the light');
@@ -213,6 +269,9 @@ function onHomeyReady(homeyReady){
             setRefreshInterval() {
                 this.clearRefreshInterval();
                 refreshInterval = setInterval(() => this.getDevices(), REFRESH_INTERVAL);
+            },
+            getDevicesForZone(zoneId) {
+                return this.devices ? this.devices.filter(d => d.zone === zoneId) : [];
             }
         },
        
@@ -223,12 +282,8 @@ function onHomeyReady(homeyReady){
             this.setRefreshInterval();
         },
         computed: {
-            devices() {
-                return this.devices;
-            },
-            zones() {
-                return this.zones;
-            }
+            devices() { return this.devices; },
+            zones() { return this.zones; }
         }
     });
 }

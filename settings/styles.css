@@ -685,3 +685,30 @@ a:active {
     vertical-align: bottom;
     padding-bottom: 18px;
 }
+
+.zone-header {
+    position: relative;
+    text-align: left !important;
+    padding: 0 10px !important;
+    /*padding-left: 10px;*/
+    height: 45px !important;
+}
+.zone-header .rTableCell {
+    padding: 0 6px;
+}
+.zone-slider {
+    margin: 0 10px;
+}
+.zone-slider .rangeslider {
+    float:right;
+    /*max-width: 200px;*/
+}
+.zone-switch {
+    /*position: absolute;
+    right: 5px;
+    bottom: 5px;*/
+}
+
+.stretch {
+    width: 100%;
+}
