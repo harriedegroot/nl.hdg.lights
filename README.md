@@ -24,8 +24,8 @@ It's Homey 2.0 only...
 - Search devices & zones  
 
 #### 2.0.1
-- Grouped lights per zone
-- Manage lights per zone/room
+- Grouped lights & sockets per zone
+- Manage lights & sockets per zone/room
 - Order by name
 
 #### 2.0.0

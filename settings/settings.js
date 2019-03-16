@@ -70,14 +70,20 @@ function onHomeyReady(homeyReady){
                 this.search = '';
                 this.filter();
             },
+            applyFilter(devices) {
+                if (!devices) return [];
+                if (!this.search) return devices;
+                return devices.filter(d => this.hasName(d, this.search) || this.hasName(this.zones[d.zone], this.search));
+            },
             filter() {
                 if (this.allDevices) {
                     this.search = ($('#search').val() || '').toLowerCase();
-                    this.devices = !this.search
-                        ? this.allDevices
-                        : this.allDevices.filter(d => this.hasName(d, this.search) || this.hasName(this.zones[d.zone], this.search));
+                    this.devices = this.applyFilter(this.allDevices); 
                     this.updateZonesList();
-                    setTimeout(() => this.updateSliders());
+                    setTimeout(() => {
+                        this.updateValues(this.devices);
+                        this.updateSliders();
+                    });
                 }
             },
             getZones() {
@@ -103,11 +109,11 @@ function onHomeyReady(homeyReady){
             isLight(device) {
                 try {
                     if (device && device.name) {
-                        if (device.class === 'light' || device.class === 'socket')
-                            return true;
+                        if (!device.capabilitiesObj) return false; // invalid device
 
-                        if (device.capabilitiesObj)
-                            return !!device.capabilitiesObj.dim;
+                        return device.class === 'light'
+                            || device.class === 'socket'
+                            || !!device.capabilitiesObj.dim; // dimmable device
                     }
                     return false;
                 } catch (e) {
@@ -134,8 +140,7 @@ function onHomeyReady(homeyReady){
                             this.allDevices = devices;
                             this.filter();
                             document.getElementById('devices-list').style.display = 'block';
-                            setTimeout(() => this.updateSliders());
-                        } 
+                        }
 
                         if (interval === refreshInterval) { // NOTE: Skip when interval is cleared or another update is triggered
                             updateValuesTimeout = setTimeout(() => this.updateValues(devices));
@@ -150,6 +155,7 @@ function onHomeyReady(homeyReady){
                 for (let zone of this.zonesList) {
                     $('#zone-switch_' + zone.id).prop("checked", false);
                 }
+                devices = this.applyFilter(devices);
                 for (let device of devices) {
                     try {
                         if (device.capabilitiesObj) {
