@@ -683,7 +683,7 @@ a:active {
 
 .settings-item-last.dim {
     vertical-align: bottom;
-    padding-bottom: 18px;
+    padding-bottom: 13px;
 }
 
 .zone-header {
@@ -694,7 +694,10 @@ a:active {
     height: 45px !important;
 }
 .zone-header .rTableCell {
-    padding: 0 6px;
+    /*padding: 0 6px;*/
+}
+.zone-name {
+    padding-left: 10px !important;
 }
 .zone-slider {
     margin: 0 10px;
@@ -708,7 +711,6 @@ a:active {
     right: 5px;
     bottom: 5px;*/
 }
-
 .stretch {
     width: 100%;
 }

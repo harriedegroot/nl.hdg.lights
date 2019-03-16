@@ -8,10 +8,10 @@
     <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
     <script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
 
-    <!--<script type="text/javascript" src="test-devices.js"></script>
+    <script type="text/javascript" src="test-devices.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>-->
+            crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="vue.min.js" data-origin="settings"></script>
     <script type="text/javascript" src="settings.js" data-origin="settings"></script>
@@ -42,7 +42,7 @@
 
                     <div class="zone" v-for="zone in zonesList">
                         <div class="rTableRow zone-header text-header">
-                            <span class="rTableCell">{{zone.name}}</span>
+                            <span class="rTableCell zone-name">{{zone.name}}</span>
                             <span class="rTableCell zone-slider slider stretch" v-if="true || hasBrightness(zone)">
                                 <!--<input v-bind:id="'dim_'+zone.id"
                                        type="range"
