@@ -10,7 +10,6 @@ Just adds an app settings page with all light & socket devices:
 - Manage lights per zone/room
 
 ## Future
-- Search lights
 - Modify brightness for all devices in a zone
 - Reorder devices & zones
 - Show/hide devices
@@ -20,6 +19,9 @@ Just adds an app settings page with all light & socket devices:
 It's Homey 2.0 only...
 
 ## Change Log  
+
+#### 2.0.2  
+- Search devices & zones  
 
 #### 2.0.1
 - Grouped lights per zone
