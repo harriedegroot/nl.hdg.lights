@@ -1,4 +1,4 @@
-# Light manager
+# Lights & sockets manager
 
 With this app you can manage your lights & sockets.
 
@@ -8,6 +8,11 @@ Just adds an app settings page with all light & socket devices:
 - Turn lights & sockets on/off
 - Adjust brightness
 - Manage lights per zone/room
+
+## Future
+- Search lights
+- Modify brightness for all devices in a zone
+- Reorder devices & zones
 
 ## Homey firmware v1.5 and v2
 
