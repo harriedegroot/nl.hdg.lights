@@ -8,7 +8,6 @@ Just adds an app settings page with all light & socket devices:
 - Turn lights & sockets on/off
 - Adjust brightness
 - Manage lights per zone/room
-- Search lights
 
 ## Homey firmware v1.5 and v2
 
@@ -16,12 +15,10 @@ It's Homey 2.0 only...
 
 ## Change Log  
 
-#### 2.0.2
-- Search/filter lights
-
 #### 2.0.1
 - Grouped lights per zone
 - Manage lights per zone/room
+- Order by name
 
 #### 2.0.0
 - Initial version
