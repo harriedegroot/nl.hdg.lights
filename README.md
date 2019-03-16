@@ -1,11 +1,11 @@
 # Light manager
 
-With this app you can manage your lights.
+With this app you can manage your lights & sockets.
 
 ## Functionality
 
 Just adds an app settings page with all light & socket devices:
-- Turn lights on/off
+- Turn lights & sockets on/off
 - Adjust brightness
 - Manage lights per zone/room
 - Search lights
@@ -17,11 +17,11 @@ It's Homey 2.0 only...
 ## Change Log  
 
 #### 2.0.2
-- Manage lights per zone/room
+- Search/filter lights
 
 #### 2.0.1
-- Group lights per zone
-- Search lights
+- Grouped lights per zone
+- Manage lights per zone/room
 
 #### 2.0.0
 - Initial version

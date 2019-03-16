@@ -4,12 +4,12 @@
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "name": {
-    "en": "Lights",
-    "nl": "Lampen"
+    "en": "Lights & sockets",
+    "nl": "Lampen & schakelaars"
   },
   "description": {
-    "en": "Manage your lights in a simple overview",
-    "nl": "Beheer je lampen in een eenvoudig overzicht"
+    "en": "Manage your lights & sockets in a simple overview",
+    "nl": "Beheer je lampen en schakelaars in een eenvoudig overzicht"
   },
   "category": [
     "lights",
