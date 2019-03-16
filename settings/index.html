@@ -4,10 +4,12 @@
     <title>Lights</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" type="text/css" href="rangeslider.css" />
-    
+
     <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
     <script type="text/javascript" src="/manager/webserver/assets/js/jquery.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+
+    <!--<script type="text/javascript" src="test-devices.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>-->
 
@@ -50,14 +52,13 @@
                                        v-bind:min="0"
                                        v-bind:max="100"
                                        v-bind:step="1"
-                                       v-bind:value="getBrightness(device)" v-bind:data-id="device.id" />
+                                       v-bind:data-id="device.id"/>
                             </div>
                         </div>
                         <div class="rTableCell line settings-item-last" v-bind:class="{ dim: hasBrightness(device) }">
                             <label class="form-switch">
                                 <input v-bind:id="'switch_'+device.id"
-                                       type="checkbox" 
-                                       :checked="deviceOn(device)" 
+                                       type="checkbox"
                                        @click="switchLight(device, $event.target.checked)">
                                 <i></i>
                             </label>

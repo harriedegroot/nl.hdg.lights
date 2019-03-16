@@ -85,8 +85,8 @@ module.exports = [
         requires_authorization: true,
         fn: function (args, callback) {
             if (Homey && Homey.app) {
-                let deviceId = args.body.device;
-                let capabilityId = args.body.capability;
+                let deviceId = args.body.deviceId;
+                let capabilityId = args.body.capabilityId;
                 let value = args.body.value;
                 Homey.app.setCapabilityValue(deviceId, capabilityId, value)
                     .then(() => callback(null, value))

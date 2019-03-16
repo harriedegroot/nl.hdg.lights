@@ -56,11 +56,7 @@ class LightsManager extends Homey.App {
             if (value === 'false') value = false;
             value = Number(value);
         }
-        const state = {
-            deviceId: deviceId,
-            capabilityId: capabilityId,
-            value: value
-        };
+        const state = { deviceId, capabilityId, value };
         Log.debug("set " + capabilityId + ": " + JSON.stringify(state));
         const api = await this.getApi();
         await api.devices.setCapabilityValue(state);

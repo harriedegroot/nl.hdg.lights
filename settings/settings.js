@@ -1,103 +1,37 @@
+const REFRESH_INTERVAL = 1000;
+
 var language = 'en';
 var loading = true;
 var lightSettings = {};
 var $app;
 var refreshInterval;
+var updateValuesTimeout;
 
 const defaultSettings = {
 };
 
 //////////////////////////  DEBUG  //////////////////////////////////////
-//const testDevices = {
-//    test: {
-//        class: 'light',
-//        id: 'test', name: "test some long named device lkfjdh sdlkfjhgsldkfhg lksdjfhslkdh ", zone: "zone", iconObj: {
-//            url: "../assets/icon.svg"
-//        },
-//        capabilitiesObj: {
-//            onoff: {
-//            },
-//            measure_temperature: {
-//                value: 18.5,
-//                setable: false
-//            },
-//            target_temperature: {
-//                value: 21.3,
-//                setable: true,
-//                min: 4,
-//                max: 35,
-//                step: 0.5,
-//                units: 'C'
-//            }
-//        }
-//    },
-//    test1: {
-//        class: 'unknown',
-//        id: 'test1', name: "device 1", zone: "zone 2", iconObj: {
-//            url: "../assets/icon.svg"
-//        },
-//        capabilitiesObj: {
-//            onoff: {
-//            },
-//            dim: {
-//            },
-//            measure_temperature: {
-//                value: 77,
-//                setable: false,
-//                units: 'F'
-//            },
-//            target_temperature: {
-//                value: 55,
-//                setable: true,
-//                min: -10,
-//                max: 90,
-//                step: 1,
-//                units: 'F'
-//            }
-//        }
-//    },
-//    test2: {
-//        class: 'socket',
-//        id: 'test2', name: "device 2", zone: "zone 2", iconObj: {
-//            url: "../assets/icon.svg"
-//        },
-//        capabilitiesObj: {
-//            measure_temperature: {
-//                value: 21.5,
-//                setable: false
-//            },
-//            onoff: {}
-//        }
-//    },
-//    test3: { id: 'test', name: "device 3", zone: "zone" },
-//    test4: { id: 'test', name: "device 4", zone: "zone" },
-//    test5: { id: 'test', name: "device 5", zone: "zone" },
-//    test6: { id: 'test', name: "device 6", zone: "zone" },
-//    test7: { id: 'test', name: "device 7", zone: "zone" },
-//    test8: { id: 'test', name: "device 8", zone: "zone" },
-//    test9: { id: 'test', name: "device 9", zone: "zone" },
-//    test10: { id: 'test', name: "device 10", zone: "zone" }
-//};
-
-//$(document).ready(function () {
-//    onHomeyReady({
-//        ready: () => { },
-//        get: (_, callback) => callback(null, defaultSettings),
-//        api: (method, url, _, callback) => {
-//            switch (url) {
-//                case '/devices':
-//                    return setTimeout(() => callback(null, testDevices), 1000);
-//                case '/zones':
-//                    return callback(null, { zone: { name: 'zone' } });
-//                default:
-//                    return callback(null, {});
-//            }
-//        },
-//        getLanguage: () => 'en',
-//        set: () => 'settings saved',
-//        alert: () => alert(...arguments)
-//    })
-//});
+if (!window.Homey) {
+    $(document).ready(function () {
+        onHomeyReady({
+            ready: () => { },
+            get: (_, callback) => callback(null, defaultSettings),
+            api: (method, url, _, callback) => {
+                switch (url) {
+                    case '/devices':
+                        return setTimeout(() => callback(null, testDevices), 1000);
+                    case '/zones':
+                        return callback(null, { zone: { name: 'zone' } });
+                    default:
+                        return callback(null, {});
+                }
+            },
+            getLanguage: () => 'en',
+            set: () => 'settings saved',
+            alert: () => alert(...arguments)
+        })
+    });
+}
 ////////////////////////////////////////////////////////////////
 
 function onHomeyReady(homeyReady){
@@ -135,6 +69,7 @@ function onHomeyReady(homeyReady){
                 }
             },
             getDevices() {
+                let interval = refreshInterval;
                 return Homey.api('GET', '/devices', null, (err, result) => {
                     try {
                         loading = false;
@@ -148,10 +83,13 @@ function onHomeyReady(homeyReady){
                         if (!this.devices) {
                             this.devices = devices;
                             document.getElementById('devices-list').style.display = 'block';
-                            this.$nextTick(() => this.updateSliders());
-                        } else {
-                            this.updateValues(devices);
+                            setTimeout(() => this.updateSliders());
+                        } 
+
+                        if (interval === refreshInterval) { // NOTE: Skip when interval is cleared or another update is triggered
+                            updateValuesTimeout = setTimeout(() => this.updateValues(devices));
                         }
+                        
                     } catch (e) {
                         // nothing
                     }
@@ -161,11 +99,10 @@ function onHomeyReady(homeyReady){
                 for (let device of devices) {
                     try {
                         if (device.capabilitiesObj) {
+                            
                             if (device.capabilitiesObj.hasOwnProperty('onoff')) {
-                                const el = document.getElementById('switch_' + device.id);
-                                if (el) {
-                                    el.checked = !!device.capabilitiesObj.onoff.value;
-                                }
+                                const value = !!device.capabilitiesObj.onoff.value;
+                                $('#switch_' + device.id).prop("checked", value);
                             }
                             if (device.capabilitiesObj.hasOwnProperty('dim')) {
                                 const value = Number(device.capabilitiesObj.dim.value) * 100;
@@ -205,17 +142,20 @@ function onHomeyReady(homeyReady){
                     Homey.alert('Failed to switch the light');
                 }
             },
-            setCapabilityValue(device, capability, value) {
-                this.setRefreshInterval();
+            setCapabilityValue(deviceId, capabilityId, value) {
+                this.clearRefreshInterval();
                 return Homey.api(
                     'POST', 
                     '/capability',
-                    { device, capability, value },
+                    { deviceId, capabilityId, value },
                     (err, result) => {
                         this.setRefreshInterval();
                         if (err) return Homey.alert(err);
                     }
                 );
+            },
+            getDevice(deviceId) {
+                return this.devices.find(d => d.id === deviceId);
             },
             deviceOn(device) {
                 try {
@@ -249,7 +189,8 @@ function onHomeyReady(homeyReady){
                         polyfill: false,
                         onSlideEnd: function (position, value) {
                             try {
-                                self.setCapabilityValue(this.$element.data().id, 'dim', value / 100);
+                                const deviceId = this.$element.data().id;
+                                self.setCapabilityValue(deviceId, 'dim', value / 100);
                             } catch (e) {
                                 Homey.alert("Failed to update brightness");
                             }
@@ -259,13 +200,19 @@ function onHomeyReady(homeyReady){
                     // nothing
                 }
             },
-            setRefreshInterval() {
+            clearRefreshInterval() {
+                if (updateValuesTimeout) {
+                    clearTimeout(updateValuesTimeout);
+                    updateValuesTimeout = undefined;
+                }
                 if (refreshInterval) {
                     clearInterval(refreshInterval);
                     refreshInterval = undefined;
                 }
-                // update every xx seconds
-                refreshInterval = setInterval(() => this.getDevices(), 1000);
+            },
+            setRefreshInterval() {
+                this.clearRefreshInterval();
+                refreshInterval = setInterval(() => this.getDevices(), REFRESH_INTERVAL);
             }
         },
        
