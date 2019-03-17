@@ -125,7 +125,10 @@ function onHomeyReady(homeyReady){
                 return Homey.api('GET', '/devices', null, (err, result) => {
                     try {
                         loading = false;
-                        if (err) return Homey.alert(err);
+                        if (err) {
+                            //return Homey.alert(err);
+                            return; // nothing...
+                        }
 
                         const devices = Object.keys(result || {})
                             .filter(key => result.hasOwnProperty(key))
