@@ -19,7 +19,11 @@ Just adds an app settings page with all light & socket devices:
 It's Homey 2.0 only...
 
 ## Change Log  
-
+  
+#### 2.0.3  
+- Athom api upgrade
+- Styling fixes  
+  
 #### 2.0.2  
 - Search devices & zones  
 
