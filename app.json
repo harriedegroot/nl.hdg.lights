@@ -12,8 +12,6 @@
     "nl": "Beheer je lampen en schakelaars in een eenvoudig overzicht"
   },
   "category": [
-    "lights",
-    "appliances",
     "tools"
   ],
   "permissions": [ "homey:manager:api"],
