@@ -697,7 +697,9 @@ a:active {
     /*padding: 0 6px;*/
 }
 .zone-name {
-    padding-left: 10px !important;
+    position: absolute;
+    margin: 8px;
+    /*padding-left: 10px !important;*/
 }
 .zone-slider {
     margin: 0 10px;
@@ -712,7 +714,7 @@ a:active {
     bottom: 5px;*/
 }
 .stretch {
-    width: 100%;
+    width: 100% !important;
 }
 
 #search, #search:focus {
