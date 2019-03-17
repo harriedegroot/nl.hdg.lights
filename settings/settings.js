@@ -302,6 +302,8 @@ function onHomeyReady(homeyReady){
         },
        
         async mounted() {
+            $('.app-header').show();
+
             await this.getZones();
             await this.getDevices();
 
