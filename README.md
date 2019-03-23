@@ -8,6 +8,7 @@ Just adds an app settings page with all light & socket devices:
 - Manage all lights per zone/room at once
 - Turn lights & sockets on/off
 - Adjust brightness
+- Search/filter devices
 
 ## Future
 - Modify brightness for all devices in a zone
