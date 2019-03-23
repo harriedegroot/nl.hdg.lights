@@ -1,24 +1,24 @@
 # Lights & sockets manager
 
-With this app you can manage your lights & sockets.
+With this app you can get an overview of the current state off all your lights & sockets and manage them per room.
 
 ## Functionality
 
 Just adds an app settings page with all light & socket devices:
+- Manage all lights per zone/room at once
 - Turn lights & sockets on/off
 - Adjust brightness
-- Manage lights per zone/room
 
 ## Future
 - Modify brightness for all devices in a zone
 - Reorder devices & zones
 - Show/hide devices
-
-## Homey firmware v1.5 and v2
-
-It's Homey 2.0 only...
-
+  
 ## Change Log  
+  
+#### 2.0.4
+- Skip alert when unable to fetch device data  
+- Updated readme
   
 #### 2.0.3  
 - Athom api upgrade
@@ -46,5 +46,5 @@ Do you like this app? Consider a donation to support development.
  
 [![Donate][pp-donate-image]][pp-donate-link]
 
-[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=harriedegroot%40gmail%2ecom&lc=NL&item_name=Harrie%20de%20Groot&item_number=Homey%20Lights%20manager&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+[pp-donate-link]: https://www.paypal.me/harriedegroot
 [pp-donate-image]: https://img.shields.io/badge/Donate-PayPal-green.svg
