@@ -17,6 +17,11 @@ Just adds an app settings page with all light & socket devices:
   
 ## Change Log  
   
+#### 2.0.6
+- Added German translation
+- Fix for switching all lights in a room
+- Athom api upgrade (2.1.178)
+    
 #### 2.0.5
 - Added config to show/hide devices
 - Display 0 brightness (slider) if device is 'off'

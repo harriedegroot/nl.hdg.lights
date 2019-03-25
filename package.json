@@ -1,12 +1,12 @@
 {
   "name": "nl.hdg.lights",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Lights & sockets manager",
   "author": {
     "name": "Harrie de Groot"
   },
   "license": "ISC",
   "dependencies": {
-    "athom-api": "2.1.176"
+    "athom-api": "2.1.178"
   }
 }
