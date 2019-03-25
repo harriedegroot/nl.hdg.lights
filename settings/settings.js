@@ -202,12 +202,12 @@ function onHomeyReady(homeyReady){
                 }
                 return "<!-- no device.iconObj.url -->";
             },
-            switchLight(device, checked) {
+            async switchLight(device, checked) {
                 try {
                     if (!device || typeof device !== 'object' || !device.id)
                         return;
 
-                    this.setCapabilityValue(device.id, 'onoff', checked);
+                    await this.setCapabilityValue(device.id, 'onoff', checked);
 
                 } catch (e) {
                     Homey.alert('Failed to switch the light');
@@ -216,19 +216,18 @@ function onHomeyReady(homeyReady){
             //zoneOn(zone) {
             //    return !this.getDevicesForZone(zone.id).some(d => !this.deviceOn(d));
             //},
-            switchZone(zone, checked) {
+            async switchZone(zone, checked) {
                 try {
                     if (!zone || typeof zone !== 'object' || !zone.id)
                         return;
 
                     const devices = this.getDevicesForZone(zone.id);
-                    devices.forEach(d => {
-                        this.setCapabilityValue(d.id, 'onoff', checked);
+                    for (let d of devices) {
+                        await this.setCapabilityValue(d.id, 'onoff', checked);
                         $('#switch_' + d.id).prop("checked", checked);
-                    });
-
+                    }
                 } catch (e) {
-                    Homey.alert('Failed to switch the light');
+                    //Homey.alert('Failed to switch the light');
                 }
             },
             setCapabilityValue(deviceId, capabilityId, value) {
@@ -248,7 +247,7 @@ function onHomeyReady(homeyReady){
                     { deviceId, capabilityId, value },
                     (err, result) => {
                         this.setRefreshInterval();
-                        if (err) return Homey.alert(err);
+                        //if (err) return Homey.alert(err);
                     }
                 );
             },
