@@ -229,6 +229,15 @@ function onHomeyReady(homeyReady){
             },
             setCapabilityValue(deviceId, capabilityId, value) {
                 this.clearRefreshInterval();
+                const device = this.getDevice(deviceId);
+                if (device && device.capabilitiesObj) {
+                    const c = device.capabilitiesObj[capabilityId];
+                    if (c) {
+                        c.value = value;
+                    }
+                }
+                setTimeout(() => this.updateValues(this.devices), 0);
+
                 return Homey.api(
                     'POST', 
                     '/capability',
