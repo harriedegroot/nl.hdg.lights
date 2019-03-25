@@ -5,11 +5,13 @@
   "sdk": 2,
   "name": {
     "en": "Lights & sockets",
-    "nl": "Lampen & schakelaars"
+    "nl": "Lampen & schakelaars",
+    "de": "Lampen & Schalter"
   },
   "description": {
     "en": "Manage your lights & sockets in a simple overview",
-    "nl": "Beheer je lampen & schakelaars in een eenvoudig overzicht"
+    "nl": "Beheer je lampen & schakelaars in een eenvoudig overzicht",
+    "de": "Verwalte deine Lampen & Steckdosen in einer simplen Übersicht"
   },
   "category": [
     "tools"
@@ -29,6 +31,11 @@
         "name": "Harrie de Groot",
         "email": "harriedegroot@gmail.com"
       }
+    ],
+    "translators": [
+        {
+            "name": "🇩🇪 - Markus Mahr"
+        }
     ]
   },
   "contributing": {
