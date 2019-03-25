@@ -176,7 +176,7 @@ function onHomeyReady(homeyReady){
                                 }
                             }
                             if (device.capabilitiesObj.hasOwnProperty('dim')) {
-                                const value = Number(device.capabilitiesObj.dim.value) * 100;
+                                const value = this.getBrightness(device);
                                 $('#dim_' + device.id).val(value).change();
                             }
                         }
@@ -274,7 +274,7 @@ function onHomeyReady(homeyReady){
                     if (device && device.capabilitiesObj && device.capabilitiesObj.dim) {
                         return device.capabilitiesObj.onoff && !device.capabilitiesObj.onoff.value
                             ? 0
-                            : device.capabilitiesObj.dim.value * 100;
+                            : (device.capabilitiesObj.dim.value || 0) * 100;
                     }
                 } catch (e) {
                     // nothing
