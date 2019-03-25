@@ -12,8 +12,9 @@ module.exports = [
         fn: function (args, callback) {
             if (Homey && Homey.app) {
                 Homey.app.getDevices()
-                    .then(res => {
-                        callback(null, res);
+                    .then(result => {
+                        if (result instanceof Error) callback(result);
+                        else callback(null, result);
                     })
                     .catch(error => {
                         Log.error(error);
@@ -33,8 +34,9 @@ module.exports = [
         fn: function (args, callback) {
             if (Homey && Homey.app) {
                 Homey.app.getZones()
-                    .then(res => {
-                        callback(null, res);
+                    .then(result => {
+                        if (result instanceof Error) callback(result);
+                        else callback(null, result);
                     })
                     .catch(error => {
                         Log.error(error);
@@ -55,7 +57,7 @@ module.exports = [
             if (Homey && Homey.app) {
                 let result = Homey.app.settingsChanged();
                 if (result instanceof Error) callback(result);
-                callback(null, result);
+                else callback(null, result);
             } else {
                 callback('App not ready, please try again');
             }
@@ -71,7 +73,7 @@ module.exports = [
             if (Homey && Homey.app) {
                 let result = Log.getLogLines();
                 if (result instanceof Error) callback(result);
-                callback(null, result);
+                else callback(null, result);
             } else {
                 callback(null, []);
             }
