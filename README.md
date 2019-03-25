@@ -9,11 +9,11 @@ Just adds an app settings page with all light & socket devices:
 - Turn lights & sockets on/off
 - Adjust brightness
 - Search/filter devices
-
+- Show/hide devices
+  
 ## Future
 - Modify brightness for all devices in a zone
 - Reorder devices & zones
-- Show/hide devices
   
 ## Change Log  
   
