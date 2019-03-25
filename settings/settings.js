@@ -259,7 +259,9 @@ function onHomeyReady(homeyReady){
             getBrightness: function (device) {
                 try {
                     if (device && device.capabilitiesObj && device.capabilitiesObj.dim) {
-                        return device.capabilitiesObj.dim.value * 100;
+                        return device.capabilitiesObj.onoff && !device.capabilitiesObj.onoff.value
+                            ? 0
+                            : device.capabilitiesObj.dim.value * 100;
                     }
                 } catch (e) {
                     // nothing
