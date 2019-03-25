@@ -17,6 +17,12 @@ Just adds an app settings page with all light & socket devices:
   
 ## Change Log  
   
+#### 2.0.5
+- Added config to show/hide devices
+- Display 0 brightness (slider) if device is 'off'
+- Update zone switches when toggling devices
+- BUG fix in error handling of api calls
+  
 #### 2.0.4
 - Skip alert when unable to fetch device data  
 - Updated readme
