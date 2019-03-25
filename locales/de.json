@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "benefit": "Verwalte deine Lampen und Steckdosen"
+  },
+  "devices": {
+    "flowcard": "Flowcard"
+  },
+  "tab1": {
+    "title": "Geräte",
+    "search": "Suche..",
+    "devices": {
+      "devices": "Geräte",
+      "zone": "Bereich",
+      "device": "Gerät"
+    }
+  },
+  "tab2": {
+    "title": "Log"
+  }
+}
