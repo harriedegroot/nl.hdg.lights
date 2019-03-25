@@ -49,7 +49,10 @@ function onHomeyReady(homeyReady){
     Homey = homeyReady;
     
     lightSettings = defaultSettings;
-    
+    if (!lightSettings.devices) {
+        lightSettings.devices = {};
+    }
+
     getLanguage();
 
     $app = new Vue({
@@ -59,7 +62,8 @@ function onHomeyReady(homeyReady){
             allDevices: null,
             devices: null,
             zones: null,
-            zonesList: []
+            zonesList: [],
+            config: false
         },
         methods: {
             hasName(entity, name) {
@@ -158,7 +162,7 @@ function onHomeyReady(homeyReady){
                 for (let zone of this.zonesList) {
                     $('#zone-switch_' + zone.id).prop("checked", false);
                 }
-                devices = this.applyFilter(devices);
+                devices = this.applyFilter(devices).filter(d => lightSettings.devices[d.id] !== false);
                 for (let device of devices) {
                     try {
                         if (device.capabilitiesObj) {
@@ -311,7 +315,29 @@ function onHomeyReady(homeyReady){
                 refreshInterval = setInterval(() => this.getDevices(), REFRESH_INTERVAL);
             },
             getDevicesForZone(zoneId) {
-                return this.devices ? this.devices.filter(d => d.zone === zoneId) : [];
+                const devices = this.devices ? this.devices.filter(d => d.zone === zoneId) : [];
+                return this.config ? devices : devices.filter(d => lightSettings.devices[d.id] !== false);
+            },
+            toggleConfig() {
+                this.config = !this.config;
+                this.updateZonesList();
+                this.redraw();
+            },
+            toggleDevice(deviceId) {
+                
+                // toggle
+                lightSettings.devices[deviceId] = lightSettings.devices.hasOwnProperty(deviceId)
+                    ? !lightSettings.devices[deviceId]
+                    : false;
+                
+                saveSettings();
+                this.redraw();
+            },
+            redraw() {
+                setTimeout(() => {
+                    $app.$forceUpdate();
+                    this.updateSliders();
+                },0);
             }
         },
        
@@ -327,6 +353,18 @@ function onHomeyReady(homeyReady){
             devices() { return this.devices; },
             zones() { return this.zones; }
         }
+    });
+
+    Homey.get('settings', function (err, savedSettings) {
+        if (err) {
+            Homey.alert(err);
+        } else if (savedSettings) {
+            Object.assign(lightSettings, savedSettings);
+            if (!lightSettings.devices) {
+                lightSettings.devices = {};
+            }
+        }
+        $app.updateZonesList();
     });
 }
 
@@ -361,18 +399,18 @@ function getLanguage() {
 
 function saveSettings() {
 
-    for (let key in defaultSettings) {
-        let el = document.getElementById(key);
-        if (el) {
-            lightSettings[key] = typeof defaultSettings[key] === 'boolean' ? el.checked : el.value;
-        }
-    }
-    _writeSettings();
+    //for (let key in defaultSettings) {
+    //    let el = document.getElementById(key);
+    //    if (el) {
+    //        lightSettings[key] = typeof defaultSettings[key] === 'boolean' ? el.checked : el.value;
+    //    }
+    //}
+    _writeSettings(lightSettings);
 }
 
 function _writeSettings(settings) {
     try {
-        Homey.set('settings', lightSettings);
+        Homey.set('settings', settings);
         Homey.api('GET', '/settings_changed', null, (err, result) => { });
     } catch (e) {
         Homey.alert('Failed to save settings: ' + e);
