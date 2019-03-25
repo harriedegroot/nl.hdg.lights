@@ -1,13 +1,8 @@
 {
-  "settings": {
-    "benefit": "Manage your lights & sockets"
-  },
-  "devices": {
-    "flowcard": "Flowcard"
-  },
   "tab1": {
     "title": "Devices",
     "search": "Search..",
+    "configInfo": "Select devices to hide",
     "devices": {
       "devices": "Devices",
       "zone": "Zone",

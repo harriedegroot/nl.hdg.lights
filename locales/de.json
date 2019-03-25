@@ -1,13 +1,8 @@
 {
-  "settings": {
-    "benefit": "Verwalte deine Lampen und Steckdosen"
-  },
-  "devices": {
-    "flowcard": "Flowcard"
-  },
   "tab1": {
     "title": "Geräte",
     "search": "Suche..",
+    "configInfo": "Geräte zum Ausblenden auswählen",
     "devices": {
       "devices": "Geräte",
       "zone": "Bereich",
