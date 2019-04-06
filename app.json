@@ -1,12 +1,12 @@
 {
   "id": "nl.hdg.lights",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "name": {
-    "en": "Lights & sockets",
-    "nl": "Lampen & schakelaars",
-    "de": "Lampen & Schalter"
+    "en": "Lights & sockets monitor",
+    "nl": "Lampen & schakelaars monitor",
+    "de": "Lampen & Schalter monitor"
   },
   "description": {
     "en": "Manage your lights & sockets in a simple overview",
@@ -14,7 +14,7 @@
     "de": "Verwalte deine Lampen & Steckdosen in einer simplen Übersicht"
   },
   "category": [
-    "tools"
+    "tools", "lights"
   ],
   "permissions": [ "homey:manager:api"],
   "images": {

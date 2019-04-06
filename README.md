@@ -1,21 +1,27 @@
-# Lights & sockets manager
+# Lights & sockets monitor
 
-With this app you can get an overview of the current state off all your lights & sockets and manage them per room.
-
+With this app you can get an overview of the current state off your lights & sockets.
+Quickly find your devices, modify brightness and turn on/off all lights in a room with a single click.
+  
 ## Functionality
 
 Just adds an app settings page with all light & socket devices:
-- Manage all lights per zone/room at once
+- Manage all lights per zone/room
 - Turn lights & sockets on/off
 - Adjust brightness
 - Search/filter devices
 - Show/hide devices
+- Grouped control
   
 ## Future
 - Modify brightness for all devices in a zone
 - Reorder devices & zones
   
 ## Change Log  
+  
+#### 2.0.7
+- Fixed the hiding of devices when not in config mode
+- Renamed app to: Lights & sockets monitor.
   
 #### 2.0.6
 - Added German translation
