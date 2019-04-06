@@ -231,7 +231,9 @@ function onHomeyReady(homeyReady){
                 }
             },
             setCapabilityValue(deviceId, capabilityId, value) {
+
                 this.clearRefreshInterval();
+
                 const device = this.getDevice(deviceId);
                 if (device && device.capabilitiesObj) {
                     const c = device.capabilitiesObj[capabilityId];
@@ -323,14 +325,15 @@ function onHomeyReady(homeyReady){
                 this.redraw();
             },
             toggleDevice(deviceId) {
+                if (this.config) {
+                    // toggle
+                    lightSettings.devices[deviceId] = lightSettings.devices.hasOwnProperty(deviceId)
+                        ? !lightSettings.devices[deviceId]
+                        : false;
                 
-                // toggle
-                lightSettings.devices[deviceId] = lightSettings.devices.hasOwnProperty(deviceId)
-                    ? !lightSettings.devices[deviceId]
-                    : false;
-                
-                saveSettings();
-                this.redraw();
+                    saveSettings();
+                    this.redraw();
+                }
             },
             redraw() {
                 setTimeout(() => {
